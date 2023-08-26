@@ -6,8 +6,10 @@ type Client struct {
 	socket  *websocket.Conn
 	receive chan []byte
 	room    *Room
+    clientName string
 }
 
+//The client is reading a message from the user
 func (c *Client) read() {
 	defer c.socket.Close()
 	for {
@@ -16,7 +18,8 @@ func (c *Client) read() {
 		if err != nil {
 			return
 		}
-		c.room.forward <- msg
+        messageWithName := c.clientName + string(msg) 
+		c.room.forward <- []byte(messageWithName)
 	}
 }
 
