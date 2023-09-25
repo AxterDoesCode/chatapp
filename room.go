@@ -47,7 +47,7 @@ const (
 
 var upgrader = &websocket.Upgrader{ReadBufferSize: socketBufferSize, WriteBufferSize: messageBufferSize}
 
-func (room *Room) addClientToRoom(w http.ResponseWriter, r *http.Request) {
+func (room *Room) addClient(w http.ResponseWriter, r *http.Request) {
     ws, err := upgrader.Upgrade(w, r , nil)
     if err != nil {
         log.Println(err)
@@ -57,7 +57,7 @@ func (room *Room) addClientToRoom(w http.ResponseWriter, r *http.Request) {
         socket: ws,
         receive: make(chan []byte),
         room: room,
-        clientName: fmt.Sprintf("User%d ", len(room.clients)),
+        clientName: fmt.Sprintf("User %d: ", len(room.clients) + 1),
     }
     room.join <- client 
     go client.read()
