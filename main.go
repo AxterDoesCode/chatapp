@@ -21,7 +21,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 func main (){
     room := newRoom()
     http.HandleFunc("/", serveHome)
-    http.HandleFunc("/ws", room.addClientToRoom)
+    http.HandleFunc("/ws", room.addClient)
 
     go room.run()
 
